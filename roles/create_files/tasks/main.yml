@@ -1,0 +1,32 @@
+- name: create file inside the shellmodule-lianne folder
+  file:
+    state: touch
+    path: "~/shellmodule-lianne/{{ item }}"
+  with_items:
+    - samplefile1
+    - samplefile2
+    - samplefile3
+
+- name: create file inside the shellmodule-lianne folder
+  file:
+    state: touch
+    path: "~/filemodule-lianne/{{ item.filename }}_{{ item.envtype }}"
+  with_items:
+    - { filename: 'file1', envtype: 'CI' }
+    - { filename: 'file2', envtype: 'DEV' }
+    - { filename: 'file3', envtype: 'TEST' }
+- name: create shellscript.sh 
+  template:
+      src: "../templates/shellscript.sh.j2"
+      dest: "~/{{ folder2 }}/shellscript.sh"
+      mode: 755
+- name: copy oracle-installer.jar to server
+  copy: 
+    src: "../files/oracle-installer.jar"
+    dest: "~/{{ folder1 }}/oracle-installer.jar"
+- name: Install oracle-installer.jar
+  shell: "echo 'Installed Succesfully' > ~/install.log"
+- name: Fetch install.log to Jenkins Workspace
+  fetch:
+    src: "~/install.log"
+    dest: "{{ jenkinsworkspace }}"

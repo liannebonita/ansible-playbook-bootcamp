@@ -1,0 +1,6 @@
+---
+- hosts: ansible-host
+  roles:
+    - { role: create_folder, tags: ["create_folder"] }
+    - { role: create_files, tags: ["create_files"] } 
+

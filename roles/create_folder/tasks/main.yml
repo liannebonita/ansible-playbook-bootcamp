@@ -1,0 +1,15 @@
+- name: check if {{ folder1 }} already exists
+  stat:
+    path: "~/{{ folder1 }}"
+  register: shellmodulevariable
+
+- debug: var=shellmodulevariable
+
+- name: create folder using shell module
+  shell: "mkdir ~/{{ folder1 }}"
+  when: shellmodulevariable.stat.exists != true
+
+- name: create folder using file module
+  file:
+    state: directory
+    path: "~/{{ folder2 }}"
